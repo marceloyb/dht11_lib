@@ -3,6 +3,7 @@
 void sensor_read(sensor *dht11){
 
 	uint8_t i;
+	// 5 bytes of data [16 h, 16 t, 8 chcksum]
 	uint8_t data[5];
 	uint8_t bits[40];
 
@@ -36,6 +37,11 @@ void sensor_read(sensor *dht11){
 
 		// after 50us in low, read data (if <30us transmission length is 0 bit, else 1 bit)
 		
+		if (sensor_read(dht11->pin) > 30){
+			bits[i] = 1;
+		}
+		else 
+			bits[i] = 0;
 	}
 
 }

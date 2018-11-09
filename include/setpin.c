@@ -92,4 +92,19 @@ uint8_t issetbit(uint8_t position){
 		}
 		else returnvalue = 0;
 	}
+
+}
+
+
+uint32_t read_data(uint8_t value, uint8_t position){
+	
+	uint32_t time = 0;
+
+	while (issetbit(dht11->pin) == value){
+		time++;
+		_delay_us(1);
+	}
+
+	return time;
+
 }

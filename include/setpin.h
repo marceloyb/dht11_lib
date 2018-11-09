@@ -21,5 +21,7 @@ void setpinvalue(uint8_t value, uint8_t position);
 
 uint8_t issetbit(uint8_t position);
 
+uint32_t read_data(uint8_t value, uint8_t position);
+
 #endif
 
