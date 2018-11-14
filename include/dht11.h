@@ -1,5 +1,6 @@
 #include "setpin.h"
 #include "bitop.h"
+#include "uart.h"
 
 
 typedef struct{
@@ -10,6 +11,6 @@ typedef struct{
 		uint8_t hum;
 	} value;
 
-} sensor;
+} SENSOR;
 
-void sensor_read(sensor *dht11);
+void sensor_read(SENSOR *dht11);
