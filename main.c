@@ -1,31 +1,53 @@
 #include <avr/io.h>
 #include <avr/portpins.h>
 #include <util/delay.h>
-#include <stdbool.h>
+#include <string.h>
 #include "include/setpin.h"
-#include "include/uart.h"
 #include "include/dht11.h"
-
-#define swt_bit(reg, pos) (reg ^= (1 << pos))	// mudança de estado
-#define clr_bit(reg, pos) (reg &= ~(1 << pos))	// limpar os bits de uma pos
-#define set_bit(reg, pos) (reg |= (1 << pos))	// setar bits 
-#define isset_bit(reg, pos) (reg & (1 << pos)) // check if bit set
+#include "include/LCD.h"
+#include "include/bitop.h"
 
 #define input 0
 #define output 1
 
 
+const char temperatura[] PROGMEM = 	"Temp:\0"; 	//mensagem armazenada na memória flash
+const char umidade[] PROGMEM = 		"Umid:\0"; 
 
 int main(void){	
-	uart_init();
+	char tem[3], umi[4];
+
+	DDRD = 0xFF; //PORTD como saída
+    DDRB = 0xFF; //PORTB como saída
+
+	inic_LCD_4bits(); //inicializa o LCD
 
 	SENSOR sensor;
 	sensor.pin = 10;
 
 	while(1){
 		sensor_read(&sensor);
-		printf ("temperatura: %d\n", sensor.value.temp);
-		printf ("humidade: %d\n", sensor.value.hum);
+		
+		// transforma os valores lidos do sensor em string
+		itos(sensor.value.temp, tem);
+		itos(sensor.value.hum, umi);
+
+		strcat(tem, "\337C");
+		strcat(umi, "%");
+		
+	    cmd_LCD(0x01,0); 	// limpa display
+	    cmd_LCD(0x80,0); 	// posiciona cursor na primeira posição
+
+		escreve_LCD_Flash(temperatura);
+		
+		cmd_LCD(0x8C,0);	// alinha os valores
+		escreve_LCD(tem);
+
+		cmd_LCD(0xC0,0); 	//desloca cursor para a segunda linha
+		escreve_LCD_Flash(umidade);
+	    
+		cmd_LCD(0xCD,0);	// alinha os valores
+
 		_delay_ms(1000);
 	}
 
