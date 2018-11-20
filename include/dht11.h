@@ -1,6 +1,5 @@
 #include "setpin.h"
 #include "bitop.h"
-#include "uart.h"
 
 
 typedef struct{

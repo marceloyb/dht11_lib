@@ -2,7 +2,6 @@
 #include <avr/portpins.h>
 #include <util/delay.h>
 #include "bitop.h"
-#include "uart.h"
 
 #ifndef _setpin_h
 #define _setpin_h
