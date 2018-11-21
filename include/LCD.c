@@ -42,6 +42,9 @@ void inic_LCD_4bits(){
     //sequência ditada pelo fabricando do circuito integrado HD44780
     //o LCD será só escrito. Então, R/W é sempre zero. 
     
+    DDRD = 0xFF; //PORTD como saída
+    DDRB = 0xFF; //PORTB como saída
+
     clr_bit(CONTR_LCD, RS);
     clr_bit(CONTR_LCD, E);
 
@@ -105,4 +108,31 @@ void itos(int n, char s[]) {
         s[i] = s[j];
         s[j] = c;
     }
+}
+
+const char temperatura[] PROGMEM = 	"Temp:\0"; 	//mensagem armazenada na memória flash
+const char umidade[] PROGMEM = 		"Umid:\0"; 
+
+void show_on_LCD(int temp, int hum) {
+   	char temperature[3], humidity[4];
+
+    itos(temp, temperature);
+    itos(hum, humidity);
+
+    strcat(temperature, "\337C");
+    strcat(humidity, "%");
+    
+    cmd_LCD(0x01,0); 	// limpa display
+    cmd_LCD(0x80,0); 	// posiciona cursor na primeira posição
+
+    escreve_LCD_Flash(temperatura);
+    
+    cmd_LCD(0x8C,0);	// alinha os valores
+    escreve_LCD(temperature);
+
+    cmd_LCD(0xC0,0); 	//desloca cursor para a segunda linha
+    escreve_LCD_Flash(umidade);
+    
+    cmd_LCD(0xCD,0);	// alinha os valores
+    escreve_LCD(humidity);
 }
