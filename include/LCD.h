@@ -20,8 +20,8 @@ Px6-D6, Px7-D7) */
 //protótipo das funções
 void cmd_LCD(unsigned char c, char cd);
 void inic_LCD_4bits();
-void escreve_LCD(char *c);
-void escreve_LCD_Flash(const char *c);
+void write_LCD(char *c);
+void write_LCD_Flash(const char *c);
 void show_on_LCD(int temp, int hum);
 
 void itos(int n, char s[]);     // int to string;
