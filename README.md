@@ -32,7 +32,7 @@ To use it, one must declare the sensor, set the desired pin of the sensor, and p
 
 -----------------
 
-## the _LCD_ library
+## The _LCD_ library
 This library intends to manipulate the 16x4 LCD with a 4 bits data interface
 
 ### the inic_LCD_4bits function
