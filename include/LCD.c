@@ -69,7 +69,7 @@ void inic_LCD_4bits(){
 //Sub-rotina de escrita no LCD - dados armazenados na RAM
 //------------------------------------------------------------------------------------
 
-void escreve_LCD(char *c)
+void write_LCD(char *c)
 {
     for (; *c!=0;c++) {
         cmd_LCD(*c,1);
@@ -80,7 +80,7 @@ void escreve_LCD(char *c)
 //Sub-rotina de escrita no LCD - dados armazenados na FLASH
 //------------------------------------------------------------------------------------
 
-void escreve_LCD_Flash(const char *c)
+void write_LCD_Flash(const char *c)
 {
     for (;pgm_read_byte(&(*c))!=0;c++){
         cmd_LCD(pgm_read_byte(&(*c)),1); 
@@ -125,14 +125,14 @@ void show_on_LCD(int temp, int hum) {
     cmd_LCD(0x01,0); 	// limpa display
     cmd_LCD(0x80,0); 	// posiciona cursor na primeira posição
 
-    escreve_LCD_Flash(temperatura);
+    write_LCD_Flash(temperatura);
     
     cmd_LCD(0x8C,0);	// alinha os valores
-    escreve_LCD(temperature);
+    write_LCD(temperature);
 
     cmd_LCD(0xC0,0); 	//desloca cursor para a segunda linha
-    escreve_LCD_Flash(umidade);
+    write_LCD_Flash(umidade);
     
     cmd_LCD(0xCD,0);	// alinha os valores
-    escreve_LCD(humidity);
+    write_LCD(humidity);
 }
